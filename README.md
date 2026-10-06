@@ -22,7 +22,7 @@ SolidityAPIPlus is aimed at developers who need a straightforward, dependable so
 
 ## Installation
 
-1. Clone the repository: `git clone https://github.com/harutosati/SolidityAPIPlus.git`
+1. Clone the repository: `git clone https://github.com/centxyz/SolidityAPIPlus.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the test suite: `pytest`
 
@@ -39,4 +39,4 @@ Pull requests and issue reports are both welcome. Please read the existing code 
 
 ## License
 
-Released under the MIT License — see the [LICENSE](https://github.com/harutosati/SolidityAPIPlus/blob/main/LICENSE) file.
+Released under the MIT License — see the [LICENSE](https://github.com/centxyz/SolidityAPIPlus/blob/main/LICENSE) file.
