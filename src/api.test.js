@@ -1,0 +1,13 @@
+import { describe, it } from 'node:test'; import assert from 'node:assert/strict'; import { CompilerApi, artifactBundle, compileRequest, normalizeApiUrl } from './api.js';
+const request = { source: 'pragma solidity ^0.8.0; contract C {}', fileName: 'C.sol', contractName: 'C', optimizerRuns: 200 };
+describe('compiler client', () => {
+  it('validates API URLs and compile inputs', () => { assert.equal(normalizeApiUrl('http://localhost:3000/'), 'http://localhost:3000'); assert.throws(() => normalizeApiUrl('file:///tmp/a'), /HTTP/); assert.equal(compileRequest(request).optimizer.runs, 200); assert.throws(() => compileRequest({ ...request, fileName: '../C.sol' }), /Filename/); });
+  it('compiles and exposes structured diagnostics', async () => {
+    const fetchImpl = async (_url, options) => ({ ok: true, status: 200, json: async () => ({ result: { compiler: '0.8.30', contracts: [{ name: 'C' }] }, sent: JSON.parse(options.body) }) });
+    assert.equal((await new CompilerApi('https://compiler.test', fetchImpl).compile(compileRequest(request))).contracts[0].name, 'C');
+    const failing = new CompilerApi('https://compiler.test', async () => ({ ok: false, status: 422, json: async () => ({ error: 'failed', diagnostics: [{ severity: 'error' }] }) })); await assert.rejects(failing.compile(compileRequest(request)), error => error.status === 422 && error.diagnostics.length === 1);
+  });
+  it('preserves the fetch receiver required by browsers', async () => { const receiver = globalThis; function browserLikeFetch() { assert.equal(this, receiver); return Promise.resolve({ ok: true, status: 200, json: async () => ({ status: 'healthy' }) }); } assert.equal((await new CompilerApi('https://compiler.test', browserLikeFetch).health()).status, 'healthy'); });
+  it('polls queued jobs to a terminal state', async () => { let calls = 0; const fetchImpl = async url => ({ ok: true, status: 200, json: async () => url.endsWith('/api/jobs') ? ({ job: { id: 'one', status: 'queued' } }) : ({ job: { id: 'one', status: ++calls > 1 ? 'completed' : 'running', result: { contracts: [] } } }) }); const api = new CompilerApi('https://compiler.test', fetchImpl); const queued = await api.queue(compileRequest(request)); assert.equal((await api.waitForJob(queued.id, { interval: 1 })).status, 'completed'); });
+  it('creates a portable artifact bundle', () => { const bundle = artifactBundle({ compiler: 'solc', sourceHash: 'sha256:x', optimizer: {}, contracts: [{ fileName: 'C.sol', name: 'C', abi: [], bytecode: '0x12', deployedBytecode: '0x34', metadata: {} }] }); assert.equal(bundle.contracts[0].bytecode, '0x12'); assert.throws(() => artifactBundle({ contracts: [] }), /No compiled/); });
+});
