@@ -51,3 +51,9 @@ SolidityAPIPlus compiles only. It never accepts private keys, deploys contracts,
 ## License
 
 MIT © cent
+
+## Current limitations
+
+- The console requires a reachable compatible SolidityStackDiamond service.
+- Successful compilation does not imply that a contract is secure, deployable, or economically correct.
+- The browser downloads artifacts but does not sign or deploy contracts.
