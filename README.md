@@ -1,8 +1,8 @@
-# SolidityAPIPlus
+# SolidityConsole
 
-[![CI](https://github.com/centxyz/SolidityAPIPlus/actions/workflows/ci.yml/badge.svg)](https://github.com/centxyz/SolidityAPIPlus/actions/workflows/ci.yml)
+[![CI](https://github.com/centxyz/SolidityConsole/actions/workflows/ci.yml/badge.svg)](https://github.com/centxyz/SolidityConsole/actions/workflows/ci.yml)
 
-SolidityAPIPlus is the browser console for [SolidityStackDiamond](https://github.com/centxyz/SolidityStackDiamond). It sends Solidity source to a real compiler service, supports immediate and queued compilation, displays compiler diagnostics, and lets users inspect or download ABI, creation bytecode, deployed bytecode, and compiler metadata.
+SolidityConsole is the browser console for [SolidityStackDiamond](https://github.com/centxyz/SolidityStackDiamond). It sends Solidity source to a real compiler service, supports immediate and queued compilation, displays compiler diagnostics, and lets users inspect or download ABI, creation bytecode, deployed bytecode, and compiler metadata.
 
 ## Capabilities
 
@@ -29,8 +29,8 @@ npm start
 Then run this console:
 
 ```bash
-git clone https://github.com/centxyz/SolidityAPIPlus.git
-cd SolidityAPIPlus
+git clone https://github.com/centxyz/SolidityConsole.git
+cd SolidityConsole
 npm install
 npm run dev
 ```
@@ -46,7 +46,7 @@ npm run build
 
 Tests cover URL and compile-input validation, successful/error API responses, queued job polling, and artifact bundling.
 
-SolidityAPIPlus compiles only. It never accepts private keys, deploys contracts, or signs transactions.
+SolidityConsole compiles only. It never accepts private keys, deploys contracts, or signs transactions.
 
 ## License
 
