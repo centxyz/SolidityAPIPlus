@@ -1,5 +1,7 @@
 # SolidityAPIPlus
 
+[![CI](https://github.com/centxyz/SolidityAPIPlus/actions/workflows/ci.yml/badge.svg)](https://github.com/centxyz/SolidityAPIPlus/actions/workflows/ci.yml)
+
 SolidityAPIPlus is the browser console for [SolidityStackDiamond](https://github.com/centxyz/SolidityStackDiamond). It sends Solidity source to a real compiler service, supports immediate and queued compilation, displays compiler diagnostics, and lets users inspect or download ABI, creation bytecode, deployed bytecode, and compiler metadata.
 
 ## Capabilities
